@@ -108,7 +108,7 @@ git init
 git add .
 git commit -m "Initial commit: Coffee POS system"
 git branch -M main
-git remote add origin https://github.com/<your-username>/coffee_pos.git
+git remote add origin https://github.com/khiroez/coffee_pos.git
 git push -u origin main
 ```
 
@@ -174,7 +174,7 @@ If a small window opens, Tkinter is installed.
 
 Setup (Local)
 Clone the repository:
-git clone https://github.com/<your-username>/coffee_pos.git
+git clone https://github.com/khiroez/coffee_pos.git
 cd coffee_pos
 Create and activate virtual environment:
 Windows (PowerShell)
