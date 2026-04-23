@@ -1,4 +1,6 @@
 import tkinter as tk
+import os
+import sys
 
 from config import APP, COLORS, FONTS
 from database import Database
@@ -34,6 +36,16 @@ class POSApplication:
         self.root.minsize(APP["window_w"], APP["window_h"])
         self.root.resizable(True, True)
         self.root.configure(bg=COLORS["root_bg"])
+        icon_path = self._resource_path("images", "kofeeicon.ico")
+        if os.path.exists(icon_path):
+            try:
+                self.root.iconbitmap(icon_path)
+            except tk.TclError:
+                pass
+
+    def _resource_path(self, *parts):
+        base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(base_path, *parts)
 
     def show_login(self):
         LoginWindow(self.root, self.db, self.state, self.build_main_layout)

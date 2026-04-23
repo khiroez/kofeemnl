@@ -1,4 +1,6 @@
 import hashlib
+import os
+import sys
 import tkinter as tk
 from tkinter import ttk
 
@@ -32,13 +34,29 @@ class LoginWindow(tk.Toplevel):
         container = tk.Frame(self, bg=COLORS["left_bg"], padx=30, pady=24)
         container.pack(fill=tk.BOTH, expand=True)
 
-        tk.Label(
-            container,
-            text="☕",
-            bg=COLORS["left_bg"],
-            fg=COLORS["white"],
-            font=("Helvetica", 34, "bold"),
-        ).pack(pady=(8, 6))
+        logo_path = self._resource_path("images", "kofeelogo.png")
+        if os.path.exists(logo_path):
+            try:
+                self.logo_image = tk.PhotoImage(file=logo_path)
+                factor = max(1, self.logo_image.width() // 90)
+                self.logo_image = self.logo_image.subsample(factor, factor)
+                tk.Label(container, image=self.logo_image, bg=COLORS["left_bg"]).pack(pady=(8, 6))
+            except tk.TclError:
+                tk.Label(
+                    container,
+                    text="☕",
+                    bg=COLORS["left_bg"],
+                    fg=COLORS["white"],
+                    font=("Helvetica", 34, "bold"),
+                ).pack(pady=(8, 6))
+        else:
+            tk.Label(
+                container,
+                text="☕",
+                bg=COLORS["left_bg"],
+                fg=COLORS["white"],
+                font=("Helvetica", 34, "bold"),
+            ).pack(pady=(8, 6))
         tk.Label(
             container,
             text=APP["name"],
@@ -102,3 +120,7 @@ class LoginWindow(tk.Toplevel):
             self.on_success()
         else:
             self.error_label.pack(pady=(12, 0))
+
+    def _resource_path(self, *parts):
+        base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        return os.path.join(base_path, *parts)

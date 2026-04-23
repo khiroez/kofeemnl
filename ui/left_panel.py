@@ -1,4 +1,6 @@
 import tkinter as tk
+import os
+import sys
 from datetime import datetime
 from tkinter import ttk
 
@@ -20,7 +22,17 @@ class LeftPanel(tk.Frame):
     def _build(self):
         identity = tk.Frame(self, bg=COLORS["left_bg"], padx=14, pady=14)
         identity.pack(fill=tk.X)
-        tk.Label(identity, text="☕", bg=COLORS["left_bg"], fg=COLORS["white"], font=("Helvetica", 20)).pack(anchor="w")
+        logo_path = self._resource_path("images", "kofeelogo.png")
+        if os.path.exists(logo_path):
+            try:
+                self.sidebar_logo = tk.PhotoImage(file=logo_path)
+                factor = max(1, self.sidebar_logo.width() // 44)
+                self.sidebar_logo = self.sidebar_logo.subsample(factor, factor)
+                tk.Label(identity, image=self.sidebar_logo, bg=COLORS["left_bg"]).pack(anchor="w", pady=(0, 4))
+            except tk.TclError:
+                tk.Label(identity, text="☕", bg=COLORS["left_bg"], fg=COLORS["white"], font=("Helvetica", 20)).pack(anchor="w")
+        else:
+            tk.Label(identity, text="☕", bg=COLORS["left_bg"], fg=COLORS["white"], font=("Helvetica", 20)).pack(anchor="w")
         tk.Label(identity, text=APP["name"], bg=COLORS["left_bg"], fg=COLORS["white"], font=FONTS["shop_name"]).pack(anchor="w")
         tk.Label(identity, text=APP["tagline"], bg=COLORS["left_bg"], fg=COLORS["left_text_dim"], font=FONTS["tagline"]).pack(anchor="w")
         ttk.Separator(self, orient=tk.HORIZONTAL).pack(fill=tk.X, padx=10, pady=(0, 8))
@@ -126,3 +138,7 @@ class LeftPanel(tk.Frame):
         from order_history import OrderHistory
 
         OrderHistory(self.winfo_toplevel(), self.db)
+
+    def _resource_path(self, *parts):
+        base_path = getattr(sys, "_MEIPASS", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+        return os.path.join(base_path, *parts)

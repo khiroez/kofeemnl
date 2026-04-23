@@ -1,4 +1,4 @@
-# Coffee POS System
+# Kofee Manila POS System
 
 A desktop Point-of-Sale (POS) system for a coffee shop built with Python, Tkinter, and SQLite.
 
@@ -106,7 +106,7 @@ After creating an empty repository on GitHub, run:
 ```powershell
 git init
 git add .
-git commit -m "Initial commit: Coffee POS system"
+git commit -m "Initial commit: Kofee Manila POS system"
 git branch -M main
 git remote add origin https://github.com/khiroez/coffee_pos.git
 git push -u origin main
